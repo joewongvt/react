@@ -60,6 +60,47 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     (c == a) || (c == b)
   }
 
+  // compare two heaps by successively comparing and deleting min
+  def compareHeaps(h1:H, h2:H):Boolean = {
+    if (isEmpty(h1) && isEmpty(h2)) {
+      true
+    } else if (isEmpty(h1) || isEmpty(h2)) {
+      false
+    } else {
+      val m1 = findMin(h1)
+      val m2 = findMin(h2)
+      if (m1 == m2) {
+        compareHeaps(deleteMin(h1), deleteMin(h2))
+      } else {
+        false
+      }
+    }
+  }
+
+  property("heap is equal to itself") = forAll{ (h:H) =>
+    compareHeaps(h,h)
+  }
+
+  def convertListToHeap(h:H, l:List[A]):H = {
+    if (l.isEmpty) {
+      h
+    } else {
+      convertListToHeap(insert(l.head, h), l.tail)
+    }
+  }
+
+  property("Convert single element list into heap always returns single element as min") = forAll{ a:A =>
+    val h:H = convertListToHeap(empty, List(a))
+    findMin(h) == a
+  }
+
+  property("insertion order into the heap does not matter") = forAll{ (l:List[A]) =>
+    val h1 = convertListToHeap(empty, l)
+    val h2 = convertListToHeap(empty, l.reverse)
+    compareHeaps(h1, h2)
+  }
+
+
   lazy val genHeap: Gen[H] = for {
     v <- arbitrary[A]
     h <- oneOf(const(empty), genHeap)
