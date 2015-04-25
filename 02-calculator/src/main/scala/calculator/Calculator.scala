@@ -10,23 +10,19 @@ final case class Divide(a: Expr, b: Expr) extends Expr
 
 object Calculator {
   def computeValues(namedExpressions: Map[String, Signal[Expr]]): Map[String, Signal[Double]] = {
-    namedExpressions.mapValues( e => Signal(eval(e(), namedExpressions.filter( (kv:(String, Signal[Expr])) => kv._2 != e ))))
+    namedExpressions.map{ case(k,v) => k -> Signal(eval(v(), namedExpressions - k))}
   }
 
   def eval(expr: Expr, references: Map[String, Signal[Expr]]): Double = {
     expr match {
       case l:Literal => l.v
-      case r:Ref     => eval(getReferenceExpr(r.name, references), references)
-      case p:Plus    => eval(p.a, filterOut(p, references)) + eval(p.b, filterOut(p, references))
-      case m:Minus   => eval(m.a, filterOut(m, references)) - eval(m.b, filterOut(m, references))
-      case t:Times   => eval(t.a, filterOut(t, references)) * eval(t.b, filterOut(t, references))
-      case d:Divide  => eval(d.a, filterOut(d, references)) / eval(d.b, filterOut(d, references))
+      case r:Ref     => eval(getReferenceExpr(r.name, references), references - r.name)
+      case p:Plus    => eval(p.a, references) + eval(p.b, references)
+      case m:Minus   => eval(m.a, references) - eval(m.b, references)
+      case t:Times   => eval(t.a, references) * eval(t.b, references)
+      case d:Divide  => eval(d.a, references) / eval(d.b, references)
       case _         => Double.NaN
     }
-  }
-
-  def filterOut(e:Expr, references: Map[String, Signal[Expr]]): Map[String, Signal[Expr]] = {
-    references.filter( (kv:(String, Signal[Expr])) => kv._2() != e)
   }
 
   /** Get the Expr for a referenced variables.
