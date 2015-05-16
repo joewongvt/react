@@ -5,4 +5,5 @@
 |04/24 19:00|04/24 20:40|   01:40  | Watch videos: w01, w02 up to FRP impl | N/A     |
 |04/24 20:40|04/25 01:15|   04:35  | Complete week02 assignment            | 0a10acc |
 |05/10 14:00|05/10 16:30|   02:30  | Complete week03 assignment            | 788fee0 |
-|           | Total     |   11:47  | Total time taken                      |         |
+|05/16 21:56|05/16 00:10|   02:14  | Start week04 assignment               | dce59de |
+|           | Total     |   15:01  | Total time taken                      |         |
