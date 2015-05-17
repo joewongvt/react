@@ -7,4 +7,6 @@
 |05/10 14:00|05/10 16:30|   02:30  | Complete week03 assignment            | 788fee0 |
 |05/15 21:56|05/16 00:10|   02:14  | Start week04 assignment               | dce59de |
 |05/16 16:00|05/16 16:27|   00:27  | Wikipedia API (week04)                | 26d7a6d |
-|           | Total     |   15:28  | Total time taken                      |         |
+|05/16 19:45|05/16 20:48|   01:03  | finish 1st try of week04              | eb6fc92 |
+|05/16 20:48|05/16 21:30|   00:42  | fix most test failures                | b77ef61 |
+|           | Total     |   16:53  | Total time taken                      |         |
