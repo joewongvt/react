@@ -94,17 +94,11 @@ object WikipediaSuggest extends SimpleSwingApplication with ConcreteSwingApi wit
     // TO IMPLEMENT
     val selections: Observable[String] = button.clicks.filter(_ => suggestionList.selection.items.nonEmpty)
                                                       .map(_ => suggestionList.selection.items.head)
-//    val selections: Observable[String] = {
-//      if (suggestionList.selection.items.isEmpty){
-//        Observable.empty
-//      } else {
-//        Observable.from(suggestionList.selection.items).sanitized
-//      }
-//    }
 
     // TO IMPLEMENT
     val pages: Observable[Try[String]] = {
-      selections.flatMap{s => Observable.from(wikipediaPage(s))}.recovered
+      // it makes sense why i should include a time out here, but the value was a complete guess.
+      selections.flatMap{s => Observable.from(wikipediaPage(s))}.recovered.timedOut(10)
     }
 
     // TO IMPLEMENT
